@@ -3,6 +3,10 @@
   "cleanUrls": true,
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "http://130.211.113.47:3001/api/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }

@@ -35,5 +35,5 @@ export const getSseStreamUrl = (): string | null => {
   if (rawSseUrl) return rawSseUrl;
   if (BACKEND_URL) return `${BACKEND_URL}/api/stream`;
   if (import.meta.env.DEV) return "http://localhost:3001/api/stream";
-  return null;
+  return "/api/stream";
 };
