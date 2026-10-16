@@ -12,6 +12,7 @@ export interface OperatorProfile {
   riskFloorBps: number;
   maxSizeUsd: number;
   simulatedBalanceSol: number;
+  isSimulated?: boolean;
 }
 
 export interface ConnectResult {

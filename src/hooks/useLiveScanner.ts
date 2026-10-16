@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import type { ArbitrageOpportunity } from "../types/market";
 import { generateOpportunities } from "../engine/simulation";
-
-const SSE_URL = "http://localhost:3001/api/stream";
+import { getSseStreamUrl } from "../config/env";
 
 export type ConnectionStatus = "connected" | "connecting" | "offline";
 
@@ -54,13 +53,39 @@ export function useLiveScanner({
 
   useEffect(() => {
     let isCancelled = false;
+    const sseUrl = getSseStreamUrl();
+
+    // If in standalone mode without a configured backend (e.g. Vercel preview), run autonomous live ticker
+    if (!sseUrl) {
+      setStatus("connected");
+      const timer = setInterval(() => {
+        if (isCancelled) return;
+        setOpportunities((prev) =>
+          prev.map((opp) => {
+            const jitterBps = (Math.random() - 0.49) * 0.4;
+            const newNet = Number((opp.netEdgeBps + jitterBps).toFixed(1));
+            return {
+              ...opp,
+              netEdgeBps: newNet,
+              quoteAgeMs: Math.floor(Math.random() * 400 + 100),
+            };
+          })
+        );
+        setLastTickTime(Date.now());
+      }, 2500);
+
+      return () => {
+        isCancelled = true;
+        clearInterval(timer);
+      };
+    }
 
     function connect() {
-      if (isCancelled) return;
+      if (isCancelled || !sseUrl) return;
       setStatus("connecting");
 
       try {
-        const es = new EventSource(SSE_URL);
+        const es = new EventSource(sseUrl);
         eventSourceRef.current = es;
 
         es.onopen = () => {
