@@ -4,14 +4,13 @@ import type { ProtocolMetrics } from "../../types/market";
 import { Logo } from "../Common/Logo";
 import { useOperator } from "../../context/OperatorContext";
 import type { ConnectionStatus } from "../../hooks/useLiveScanner";
-import { Wallet, AlertTriangle } from "lucide-react";
+import { Wallet } from "lucide-react";
 
 interface HeaderProps {
   activeTab: "matrix" | "trades" | "safety" | "simulator";
   setActiveTab: (tab: "matrix" | "trades" | "safety" | "simulator") => void;
   metrics: ProtocolMetrics;
   circuitTripped?: boolean;
-  onToggleCircuit?: () => void;
   onToggleMarketSession?: () => void;
   scannerStatus?: ConnectionStatus;
   tradeCount?: number;
@@ -22,7 +21,6 @@ export const Header: React.FC<HeaderProps> = ({
   setActiveTab,
   metrics,
   circuitTripped = false,
-  onToggleCircuit,
   scannerStatus = "connected",
   tradeCount = 0,
 }) => {
@@ -81,29 +79,20 @@ export const Header: React.FC<HeaderProps> = ({
 
           <div className={s.actionSep} />
 
-          {/* Emergency Panic Kill Switch Button */}
-          {circuitTripped ? (
-            <button
-              className={s.emergencyStopBtnTripped}
-              onClick={onToggleCircuit}
-              title="EMERGENCY TRIPPED: All execution pipelines halted across desk. Click to reset."
-            >
-              <span className={s.pulsingDot} />
-              <AlertTriangle size={13} />
-              <span>HALTED (RESET)</span>
-            </button>
-          ) : (
-            <button
-              className={s.emergencyStopBtnArmed}
-              onClick={onToggleCircuit}
-              title="EMERGENCY STOP: Click to immediately trip circuit breaker and halt all trading pipelines."
-            >
-              <AlertTriangle size={13} />
-              <span>KILL SWITCH</span>
-            </button>
+          {/* Subtle Safety Indicator (Only visible if desk execution is paused, linking to Risk Controls) */}
+          {circuitTripped && (
+            <>
+              <button
+                className={s.circuitStatusBadge}
+                onClick={() => setActiveTab("safety")}
+                title="Desk execution is paused by safety circuit. Click to review in Risk Controls."
+              >
+                <span className={s.statusDotAmber} />
+                <span>Execution Paused</span>
+              </button>
+              <div className={s.actionSep} />
+            </>
           )}
-
-          <div className={s.actionSep} />
 
           {/* Solana Wallet Access */}
           {isConnected && operator ? (

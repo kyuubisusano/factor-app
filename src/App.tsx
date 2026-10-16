@@ -227,13 +227,12 @@ function AppContent() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      {/* Top Header with live scanner status, Emergency Stop & operator button */}
+      {/* Top Header with live scanner status & operator button */}
       <Header
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         metrics={metrics}
         circuitTripped={circuitState.tripped}
-        onToggleCircuit={handleToggleCircuit}
         onToggleMarketSession={handleToggleMarketSession}
         scannerStatus={scannerStatus}
         tradeCount={tradeCount}
