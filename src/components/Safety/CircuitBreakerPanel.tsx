@@ -272,30 +272,32 @@ export const CircuitBreakerPanel: React.FC<CircuitBreakerPanelProps> = ({
           </div>
         </div>
 
-        <table className={s.logTable}>
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Event</th>
-              <th>Detail</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredEvents.map((evt) => (
-              <tr key={evt.id}>
-                <td className={s.mono}>{new Date(evt.ts).toLocaleTimeString()}</td>
-                <td>
-                  <span className={s.kindTag}>{evt.kind}</span>
-                </td>
-                <td className={s.detailCol}>{evt.detail}</td>
-                <td>
-                  <span className={s.passTag}>Verified</span>
-                </td>
+        <div className={s.tableWrap}>
+          <table className={s.logTable}>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Event</th>
+                <th>Detail</th>
+                <th>Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredEvents.map((evt) => (
+                <tr key={evt.id}>
+                  <td className={s.mono}>{new Date(evt.ts).toLocaleTimeString()}</td>
+                  <td>
+                    <span className={s.kindTag}>{evt.kind}</span>
+                  </td>
+                  <td className={s.detailCol}>{evt.detail}</td>
+                  <td>
+                    <span className={s.passTag}>Verified</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

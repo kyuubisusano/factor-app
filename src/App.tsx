@@ -20,7 +20,29 @@ import type { ArbitrageOpportunity, CircuitBreakerState, ProtocolMetrics } from 
 import { trackAnonymousEvent } from "./services/telemetry";
 
 function AppContent() {
-  const [activeTab, setActiveTab] = useState<"matrix" | "trades" | "safety" | "simulator">("matrix");
+  const [activeTab, setActiveTabState] = useState<"matrix" | "trades" | "safety" | "simulator">(() => {
+    const hash = window.location.hash.replace("#", "");
+    if (hash === "simulator" || hash === "trades" || hash === "safety" || hash === "matrix") {
+      return hash as "matrix" | "trades" | "safety" | "simulator";
+    }
+    return "matrix";
+  });
+
+  const setActiveTab = useCallback((tab: "matrix" | "trades" | "safety" | "simulator") => {
+    setActiveTabState(tab);
+    window.location.hash = tab;
+  }, []);
+
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (hash === "simulator" || hash === "trades" || hash === "safety" || hash === "matrix") {
+        setActiveTabState(hash as "matrix" | "trades" | "safety" | "simulator");
+      }
+    };
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
 
   useEffect(() => {
     trackAnonymousEvent(`view_${activeTab}`);
@@ -306,27 +328,8 @@ function AppContent() {
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />
 
       {/* Institutional Footer */}
-      <footer
-        style={{
-          borderTop: "1px solid var(--line)",
-          background: "var(--surface-1)",
-          padding: "16px 24px",
-          marginTop: "auto",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "var(--max-width)",
-            margin: "0 auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            fontSize: "12px",
-            color: "var(--text-muted)",
-            flexWrap: "wrap",
-            gap: "12px",
-          }}
-        >
+      <footer className="terminal-footer">
+        <div className="terminal-footer-inner">
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <Logo size={16} />
             <span style={{ fontWeight: 600, color: "var(--text)", fontFamily: "var(--font-display)", letterSpacing: "-0.03em" }}>factor</span>
@@ -334,7 +337,7 @@ function AppContent() {
             <span>Cross-Venue Execution Terminal</span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "14px", fontFamily: "var(--font-mono)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", justifyContent: "center", fontFamily: "var(--font-mono)" }}>
             <span>Solana Mainnet (Token-2022)</span>
             <span>•</span>
             <span>Kraken • Gate.io • Bybit • Jupiter</span>

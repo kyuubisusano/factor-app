@@ -407,6 +407,12 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .mono {
   font-family: var(--font-mono);
   color: var(--text-muted);
@@ -427,4 +433,57 @@
   font-size: 10.5px;
   font-weight: 500;
   color: var(--dim);
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 12px 12px 36px;
+  }
+
+  .controlStrip {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .telemetryCluster {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .latencyStrip {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .latBox {
+    padding: 6px 10px;
+  }
+
+  .gateSummaryStrip {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .gateSummaryMetrics {
+    justify-content: space-between;
+  }
+
+  .logHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .logActions {
+    width: 100%;
+    justify-content: space-between;
+  }
 }

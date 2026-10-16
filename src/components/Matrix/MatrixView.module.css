@@ -752,3 +752,208 @@
   color: var(--mute);
 }
 
+/* Mobile Floating Action Bar */
+.mobileFloatingBar {
+  display: none;
+}
+
+@media (max-width: 1099px) {
+  .mobileFloatingBar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    background: rgba(14, 14, 16, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid var(--line-strong);
+    padding: 10px 16px max(10px, env(safe-area-inset-bottom));
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .mobileBarInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .mobileBarTickerRow {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .mobileBarTicker {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .mobileBarEdge {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dim);
+  }
+
+  .mobileBarSub {
+    font-size: 11px;
+    color: var(--mute);
+    font-family: var(--font-mono);
+  }
+
+  .mobileBarBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: var(--radius-sm);
+    background: var(--lime);
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 12.5px;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+  }
+
+  .mobileBarBtn:hover {
+    background: var(--lime-hover);
+  }
+
+  .mobileBarBtnDisabled {
+    background: var(--surface-3);
+    color: var(--mute);
+    cursor: not-allowed;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 12px 12px 80px;
+  }
+
+  .controlStrip {
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .leftControls {
+    width: 100%;
+    gap: 8px;
+  }
+
+  .searchBox {
+    width: 100%;
+  }
+
+  .categoryGroup {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 2px;
+    justify-content: flex-start;
+  }
+
+  .categoryGroup::-webkit-scrollbar {
+    display: none;
+  }
+
+  .categoryBtn {
+    flex-shrink: 0;
+    padding: 5px 9px;
+    font-size: 11px;
+  }
+
+  .filterHurdle {
+    width: 100%;
+    justify-content: center;
+    height: 32px;
+  }
+
+  .rightControls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .telemetryPills {
+    font-size: 11px;
+    gap: 8px;
+  }
+
+  /* Table Cards on Mobile */
+  .table thead {
+    display: none;
+  }
+
+  .table,
+  .table tbody,
+  .table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .table tr {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "asset margin"
+      "prices decision";
+    row-gap: 6px;
+    column-gap: 12px;
+    align-items: center;
+    padding: 12px 14px;
+    min-height: 62px;
+  }
+
+  .tdAsset {
+    grid-area: asset;
+    padding: 0 !important;
+  }
+
+  .tdMargin {
+    grid-area: margin;
+    padding: 0 !important;
+    text-align: right;
+  }
+
+  .tdPrices {
+    grid-area: prices;
+    padding: 0 !important;
+    text-align: left !important;
+  }
+
+  .tdPrices .priceGroup {
+    align-items: flex-start !important;
+  }
+
+  .tdDecision {
+    grid-area: decision;
+    padding: 0 !important;
+    text-align: right;
+  }
+
+  .inspectorCard {
+    position: static;
+    margin-top: 16px;
+  }
+
+  .inspectorBox {
+    padding: 14px 14px;
+    gap: 10px;
+  }
+
+  .receipt {
+    padding: 12px 12px 14px;
+  }
+}
+

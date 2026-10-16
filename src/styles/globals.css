@@ -200,3 +200,37 @@ input, select {
 .flash-updated {
   animation: flash-green 1s ease-out;
 }
+
+/* Terminal Institutional Footer */
+.terminal-footer {
+  border-top: 1px solid var(--line);
+  background: var(--surface-1);
+  padding: 16px 24px;
+  margin-top: auto;
+}
+
+.terminal-footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .terminal-footer {
+    padding: 14px 12px 76px; /* Space for mobile floating bottom bar */
+  }
+
+  .terminal-footer-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    font-size: 11px;
+  }
+}

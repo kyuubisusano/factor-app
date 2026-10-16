@@ -404,3 +404,38 @@
 .textGreen { color: var(--green); }
 .textLime { color: var(--lime); }
 .textCoral { color: var(--coral); }
+
+@media (max-width: 640px) {
+  .overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal {
+    max-width: 100vw;
+    max-height: 90dvh;
+    border-radius: 16px 16px 0 0;
+    border-bottom: none;
+  }
+
+  .header {
+    padding: 10px 14px;
+  }
+
+  .body {
+    padding: 12px 14px;
+    gap: 12px;
+  }
+
+  .footer {
+    padding: 10px 14px max(10px, env(safe-area-inset-bottom));
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .footerRight {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

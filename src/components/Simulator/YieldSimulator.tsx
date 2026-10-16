@@ -275,42 +275,44 @@ Breakeven Rebalance: ${formatCurrency(edgeResult.breakevenRebalanceUsd)}`;
           {/* Size Sensitivity Table */}
           <div className={s.card}>
             <div className={s.cardHeader}>Notional Sizing Sensitivity</div>
-            <table className={s.table}>
-              <thead>
-                <tr>
-                  <th>Size</th>
-                  <th>Net Edge</th>
-                  <th>Profit</th>
-                  <th>Breakeven Rebal</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[1000, 5000, 10000, 25000, 50000, 100000].map((sz) => {
-                  const res = calculateEdge({
-                    priceBuy: 100,
-                    priceSell: 100 * (1 + grossSpreadBps / 10_000),
-                    feeBuyBps: feePresetBps / 2,
-                    feeSellBps: feePresetBps / 2,
-                    gasBuyUsd: 0,
-                    gasSellUsd: 0.02,
-                    rebalanceUsd: 0,
-                    sizeUsd: sz,
-                    annualCapitalCost,
-                    idleDays,
-                  });
-                  return (
-                    <tr key={sz} className={tradeSize === sz ? s.rowActive : ""}>
-                      <td className={s.mono}>{formatCurrency(sz, 0)}</td>
-                      <td className={`${s.mono} ${res.clears ? s.textLime : s.textCoral}`}>
-                        {formatBps(res.netEdgeBps)}
-                      </td>
-                      <td className={s.mono}>{formatCurrency(res.netDollarProfit)}</td>
-                      <td className={s.mono}>{formatCurrency(res.breakevenRebalanceUsd)}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <div className={s.tableWrap}>
+              <table className={s.table}>
+                <thead>
+                  <tr>
+                    <th>Size</th>
+                    <th>Net Edge</th>
+                    <th>Profit</th>
+                    <th>Breakeven Rebal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[1000, 5000, 10000, 25000, 50000, 100000].map((sz) => {
+                    const res = calculateEdge({
+                      priceBuy: 100,
+                      priceSell: 100 * (1 + grossSpreadBps / 10_000),
+                      feeBuyBps: feePresetBps / 2,
+                      feeSellBps: feePresetBps / 2,
+                      gasBuyUsd: 0,
+                      gasSellUsd: 0.02,
+                      rebalanceUsd: 0,
+                      sizeUsd: sz,
+                      annualCapitalCost,
+                      idleDays,
+                    });
+                    return (
+                      <tr key={sz} className={tradeSize === sz ? s.rowActive : ""}>
+                        <td className={s.mono}>{formatCurrency(sz, 0)}</td>
+                        <td className={`${s.mono} ${res.clears ? s.textLime : s.textCoral}`}>
+                          {formatBps(res.netEdgeBps)}
+                        </td>
+                        <td className={s.mono}>{formatCurrency(res.netDollarProfit)}</td>
+                        <td className={s.mono}>{formatCurrency(res.breakevenRebalanceUsd)}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

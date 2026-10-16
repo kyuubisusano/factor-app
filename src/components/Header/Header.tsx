@@ -39,7 +39,8 @@ export const Header: React.FC<HeaderProps> = ({
             className={`${s.navItem} ${activeTab === "matrix" ? s.active : ""}`}
             onClick={() => setActiveTab("matrix")}
           >
-            <span>Arbitrage Scanner</span>
+            <span className={s.navLabelFull}>Arbitrage Scanner</span>
+            <span className={s.navLabelShort}>Scanner</span>
             {metrics.clearingOpportunitiesCount > 0 && (
               <span className={s.countBadge}>{metrics.clearingOpportunitiesCount}</span>
             )}
@@ -49,14 +50,16 @@ export const Header: React.FC<HeaderProps> = ({
             className={`${s.navItem} ${activeTab === "simulator" ? s.active : ""}`}
             onClick={() => setActiveTab("simulator")}
           >
-            <span>Yield Simulator</span>
+            <span className={s.navLabelFull}>Yield Simulator</span>
+            <span className={s.navLabelShort}>Simulator</span>
           </button>
 
           <button
             className={`${s.navItem} ${activeTab === "trades" ? s.active : ""}`}
             onClick={() => setActiveTab("trades")}
           >
-            <span>Execution Blotter</span>
+            <span className={s.navLabelFull}>Execution Blotter</span>
+            <span className={s.navLabelShort}>Blotter</span>
             {tradeCount > 0 && (
               <span className={s.countBadge}>{tradeCount}</span>
             )}

@@ -266,6 +266,12 @@
   background: rgba(212, 245, 92, 0.05);
 }
 
+.tableWrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
 .mono {
   font-family: var(--font-mono);
 }
@@ -273,3 +279,51 @@
 .textGreen { color: var(--green); }
 .textLime { color: var(--lime); }
 .textCoral { color: var(--coral); }
+
+@media (max-width: 640px) {
+  .container {
+    padding: 12px 12px 36px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .statBox {
+    padding: 10px 10px;
+  }
+
+  .statNum {
+    font-size: 17px;
+  }
+
+  .statLabel {
+    font-size: 10px;
+  }
+
+  .tierButtons {
+    gap: 4px;
+  }
+
+  .tierBtn {
+    font-size: 10.5px;
+    padding: 6px 2px;
+  }
+
+  .chipsRow {
+    flex-wrap: wrap;
+  }
+
+  .table th,
+  .table td {
+    padding: 6px 5px;
+    font-size: 10.5px;
+  }
+}

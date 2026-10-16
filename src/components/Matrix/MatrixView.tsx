@@ -250,7 +250,11 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                         key={opp.id}
                         className={isSelected ? s.rowSelected : ""}
                         onClick={() => {
-                          setActiveOppId(opp.id);
+                          if (activeOpp?.id === opp.id && opp.clears && !circuitTripped) {
+                            setIsTradeDrawerOpen(true);
+                          } else {
+                            setActiveOppId(opp.id);
+                          }
                         }}
                       >
                         {/* Asset & Route */}
@@ -549,6 +553,31 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
           </aside>
         )}
       </div>
+
+      {/* Mobile Sticky Action Bar */}
+      {activeOpp && edgeResult && (
+        <div className={s.mobileFloatingBar}>
+          <div className={s.mobileBarInfo}>
+            <div className={s.mobileBarTickerRow}>
+              <span className={s.mobileBarTicker}>{activeOpp.symbol}</span>
+              <span className={`${s.mobileBarEdge} ${edgeResult.clears ? s.edgeGreen : ""}`}>
+                {formatBps(edgeResult.netEdgeBps)}
+              </span>
+            </div>
+            <span className={s.mobileBarSub}>
+              {venueLabel(activeOpp.buyVenue)} &rarr; {venueLabel(activeOpp.sellVenue)} &bull; +{formatCurrency(edgeResult.netDollarProfit)}
+            </span>
+          </div>
+          <button
+            className={`${s.mobileBarBtn} ${!edgeResult.clears || circuitTripped ? s.mobileBarBtnDisabled : ""}`}
+            onClick={() => setIsTradeDrawerOpen(true)}
+            disabled={!edgeResult.clears || circuitTripped}
+          >
+            <span>{circuitTripped ? "Halted" : "Execute"}</span>
+            <ArrowUpRight size={14} />
+          </button>
+        </div>
+      )}
 
       {/* Real Live Arbitrage Execution Drawer */}
       {isTradeDrawerOpen && activeOpp && (
