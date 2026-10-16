@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { X, Sliders, History } from "lucide-react";
+import { X, Sliders, History, ShieldAlert } from "lucide-react";
 import s from "./OperatorDrawer.module.css";
 import { useOperator } from "../../context/OperatorContext";
 import { getExecutionHistory, type ExecutionRecord } from "../../services/api";
 
-export const OperatorDrawer: React.FC = () => {
+interface OperatorDrawerProps {
+  onOpenSafety?: () => void;
+}
+
+export const OperatorDrawer: React.FC<OperatorDrawerProps> = ({ onOpenSafety }) => {
   const {
     operator,
     isOperatorDrawerOpen,
@@ -104,6 +108,37 @@ export const OperatorDrawer: React.FC = () => {
                 <span>10.0 bps (Aggressive)</span>
                 <span>30.0 bps (Conservative)</span>
               </div>
+            </div>
+
+            <div style={{ marginTop: "14px", paddingTop: "12px", borderTop: "1px solid var(--line)" }}>
+              <button
+                type="button"
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "8px 12px",
+                  borderRadius: "var(--radius-sm)",
+                  background: "var(--surface-3)",
+                  border: "1px solid var(--line-strong)",
+                  color: "var(--text)",
+                  fontSize: "12px",
+                  fontWeight: 500,
+                  cursor: "pointer",
+                  transition: "var(--transition)",
+                }}
+                onClick={() => {
+                  closeOperatorDrawer();
+                  if (onOpenSafety) onOpenSafety();
+                }}
+              >
+                <span style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+                  <ShieldAlert size={13} color="var(--lime)" />
+                  <span>Circuit Breaker & Safety Governance</span>
+                </span>
+                <span style={{ color: "var(--dim)", fontSize: "11px" }}>&rarr;</span>
+              </button>
             </div>
           </div>
 

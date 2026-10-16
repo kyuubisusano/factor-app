@@ -4,7 +4,7 @@ import type { ProtocolMetrics } from "../../types/market";
 import { Logo } from "../Common/Logo";
 import { useOperator } from "../../context/OperatorContext";
 import type { ConnectionStatus } from "../../hooks/useLiveScanner";
-import { Wallet } from "lucide-react";
+import { Wallet, Sparkles } from "lucide-react";
 
 interface HeaderProps {
   activeTab: "matrix" | "trades" | "safety" | "simulator";
@@ -35,51 +35,56 @@ export const Header: React.FC<HeaderProps> = ({
           <span className={s.brandWordmark}>factor</span>
         </div>
 
-        {/* Navigation Tabs */}
+        {/* Navigation Tabs - Institutional Trading Hierarchy */}
         <nav className={s.nav} aria-label="Terminal views">
           <button
             className={`${s.navItem} ${activeTab === "matrix" ? s.active : ""}`}
             onClick={() => setActiveTab("matrix")}
           >
-            <span>Opportunities</span>
+            <span>Arbitrage Scanner</span>
             {metrics.clearingOpportunitiesCount > 0 && (
-              <span className={s.navCount}>({metrics.clearingOpportunitiesCount})</span>
+              <span className={s.navCount}>{metrics.clearingOpportunitiesCount}</span>
             )}
           </button>
+
+          {/* Featured Proprietary Value-Prop */}
+          <button
+            className={`${s.navItem} ${s.navItemFeatured} ${activeTab === "simulator" ? s.active : ""}`}
+            onClick={() => setActiveTab("simulator")}
+            title="Institutional Yield Simulator: Model net arbitrage returns across taker fees, gas, and carrying capital"
+          >
+            <Sparkles size={12} className={s.sparkleIcon} />
+            <span>Yield Simulator</span>
+            <span className={s.featuredTag}>FEATURED</span>
+          </button>
+
           <button
             className={`${s.navItem} ${activeTab === "trades" ? s.active : ""}`}
             onClick={() => setActiveTab("trades")}
           >
-            <span>Trades & PnL</span>
+            <span>Execution Blotter</span>
             {tradeCount > 0 && (
-              <span className={s.navCountTrades}>({tradeCount})</span>
+              <span className={s.navCountTrades}>{tradeCount}</span>
             )}
-          </button>
-          <button
-            className={`${s.navItem} ${activeTab === "safety" ? s.active : ""}`}
-            onClick={() => setActiveTab("safety")}
-          >
-            <span>Risk Controls</span>
-          </button>
-          <button
-            className={`${s.navItem} ${activeTab === "simulator" ? s.active : ""}`}
-            onClick={() => setActiveTab("simulator")}
-          >
-            <span>Yield Modeler</span>
           </button>
         </nav>
 
         {/* Header Right Actions */}
         <div className={s.actions}>
-          <div className={s.feedMeta}>
-            <span className={s.feedStatus}>
-              <span>{scannerStatus === "connected" ? "22 pairs synced" : "Reconnecting feeds..."}</span>
+          {/* Institutional Market Telemetry */}
+          <div
+            className={s.marketStatus}
+            title="Institutional pricing telemetry synced across NYSE/NASDAQ equities and Solana Jupiter DEX"
+          >
+            <span className={scannerStatus === "connected" ? s.pulseDotGreen : s.pulseDotAmber} />
+            <span className={s.marketStatusText}>
+              {scannerStatus === "connected" ? "US Equities & Solana Active" : "Reconnecting Feeds..."}
             </span>
           </div>
 
           <div className={s.actionSep} />
 
-          {/* Subtle Safety Indicator (Only visible if desk execution is paused, linking to Risk Controls) */}
+          {/* Subtle Safety Indicator (Visible only if desk execution is paused, linking to Risk Controls) */}
           {circuitTripped && (
             <>
               <button
@@ -124,4 +129,3 @@ export const Header: React.FC<HeaderProps> = ({
     </header>
   );
 };
-

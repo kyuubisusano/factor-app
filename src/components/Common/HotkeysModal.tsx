@@ -8,10 +8,10 @@ interface HotkeysModalProps {
 
 export const HotkeysModal: React.FC<HotkeysModalProps> = ({ onClose }) => {
   const shortcuts = [
-    { key: "1", action: "Switch to Opportunity Matrix view" },
-    { key: "2", action: "Switch to Execution Ledger & PnL History" },
-    { key: "3", action: "Switch to Risk Controls & Circuit Breakers" },
-    { key: "4", action: "Switch to Yield Modeler" },
+    { key: "1", action: "Switch to Arbitrage Scanner" },
+    { key: "2", action: "Switch to Yield Simulator" },
+    { key: "3", action: "Switch to Execution Blotter" },
+    { key: "4", action: "Switch to Risk Governance & Safety" },
     { key: "/", action: "Focus search box in Matrix" },
     { key: "V", action: "Toggle Table / Card layout mode" },
     { key: "R", action: "Fetch fresh cross-venue quotes" },

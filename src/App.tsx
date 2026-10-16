@@ -195,11 +195,11 @@ function AppContent() {
         if (e.key === "1") {
           setActiveTab("matrix");
         } else if (e.key === "2") {
-          setActiveTab("trades");
-        } else if (e.key === "3") {
-          setActiveTab("safety");
-        } else if (e.key === "4") {
           setActiveTab("simulator");
+        } else if (e.key === "3") {
+          setActiveTab("trades");
+        } else if (e.key === "4") {
+          setActiveTab("safety");
         } else if (e.key === "r" || e.key === "R") {
           e.preventDefault();
           handleRefreshFeed();
@@ -282,7 +282,7 @@ function AppContent() {
       <OperatorModal />
 
       {/* Operator Profile & SQLite Execution History Drawer */}
-      <OperatorDrawer />
+      <OperatorDrawer onOpenSafety={() => setActiveTab("safety")} />
 
       {/* Hotkeys Cheatsheet Guide Modal */}
       {isHotkeysOpen && <HotkeysModal onClose={() => setIsHotkeysOpen(false)} />}

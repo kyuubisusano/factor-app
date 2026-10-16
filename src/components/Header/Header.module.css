@@ -12,7 +12,7 @@
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 24px;
-  height: 56px;
+  height: 58px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -37,78 +37,159 @@
   line-height: 1;
 }
 
-/* Navigation Tabs */
+/* Navigation Tabs - Borderless Institutional Menu */
 .nav {
   display: flex;
   align-items: center;
-  gap: 4px;
-  background: var(--surface-1);
-  padding: 3px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line);
+  gap: 8px;
+  background: transparent;
+  padding: 0;
+  border: none;
 }
 
 .navItem {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border-radius: 4px;
-  font-size: 12.5px;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
   font-weight: 500;
   color: var(--text-muted);
   background: transparent;
-  border: none;
-  transition: var(--transition);
+  border: 1px solid transparent;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
+  letter-spacing: -0.01em;
 }
 
 .navItem:hover {
   color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .navItem.active {
-  background: var(--surface-3);
   color: var(--text);
+  background: var(--surface-2);
+  border-color: var(--line-strong);
   font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Featured Tab: Yield Simulator */
+.navItemFeatured {
+  border: 1px solid rgba(206, 255, 26, 0.18);
+  background: rgba(206, 255, 26, 0.03);
+}
+
+.navItemFeatured:hover {
+  border-color: rgba(206, 255, 26, 0.4);
+  background: rgba(206, 255, 26, 0.08);
+  color: var(--text);
+}
+
+.navItemFeatured.active {
+  background: rgba(206, 255, 26, 0.1);
+  border-color: var(--lime);
+  color: var(--text);
+  box-shadow: 0 0 14px rgba(206, 255, 26, 0.15);
+}
+
+.sparkleIcon {
+  color: var(--lime);
+}
+
+.featuredTag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 1.5px 5px;
+  border-radius: 999px;
+  background: rgba(206, 255, 26, 0.18);
+  color: var(--lime);
+  border: 1px solid rgba(206, 255, 26, 0.35);
+  margin-left: 2px;
 }
 
 .navCount {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(206, 255, 26, 0.14);
   color: var(--lime);
-  font-weight: 600;
-  margin-left: 2px;
+  border: 1px solid rgba(206, 255, 26, 0.28);
 }
 
 .navCountTrades {
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: #7dd3fc;
-  font-weight: 600;
-  margin-left: 2px;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.25);
 }
 
-/* Right Actions - Clean, quiet institutional layout (NO PILL CLUSTERS) */
+/* Right Actions */
 .actions {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.feedMeta {
-  display: flex;
+/* Institutional Market Telemetry */
+.marketStatus {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--dim);
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--line);
+  cursor: default;
+  user-select: none;
 }
 
-.feedStatus {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.marketStatusText {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.pulseDotGreen {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+  animation: statusPulse 2s infinite ease-in-out;
+}
+
+.pulseDotAmber {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+  animation: statusPulse 1.5s infinite ease-in-out;
+}
+
+@keyframes statusPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.9);
+  }
 }
 
 .actionSep {
@@ -117,7 +198,7 @@
   background: var(--line);
 }
 
-/* Subtle Safety Indicator (visible only when paused) */
+/* Subtle Safety Indicator (Visible only if desk execution is paused) */
 .circuitStatusBadge {
   display: inline-flex;
   align-items: center;
@@ -152,8 +233,8 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  height: 30px;
-  padding: 0 10px;
+  height: 32px;
+  padding: 0 11px;
   border-radius: var(--radius-sm);
   background: var(--surface-2);
   border: 1px solid var(--line-strong);
@@ -189,8 +270,8 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 30px;
-  padding: 0 12px;
+  height: 32px;
+  padding: 0 13px;
   border-radius: var(--radius-sm);
   background: var(--surface-2);
   border: 1px solid var(--line-strong);
@@ -208,7 +289,7 @@
   color: var(--lime);
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .headerInner {
     height: auto;
     padding: 10px 16px;
@@ -216,5 +297,3 @@
     gap: 12px;
   }
 }
-
-
