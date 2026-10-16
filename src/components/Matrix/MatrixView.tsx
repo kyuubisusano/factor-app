@@ -35,6 +35,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
   onToast,
   circuitTripped = false,
   onTradeExecuted,
+  onSendToSimulator,
 }) => {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -518,6 +519,32 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                     : `Execute Arbitrage (+${formatCurrency(edgeResult.netDollarProfit)} profit)`}
                 </span>
               </button>
+
+              {onSendToSimulator && (
+                <button
+                  type="button"
+                  style={{
+                    marginTop: "8px",
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "6px",
+                    padding: "7px 12px",
+                    borderRadius: "var(--radius-sm)",
+                    background: "transparent",
+                    border: "1px solid var(--line)",
+                    color: "var(--text-muted)",
+                    fontSize: "11.5px",
+                    fontWeight: 500,
+                    cursor: "pointer",
+                    transition: "var(--transition)",
+                  }}
+                  onClick={() => onSendToSimulator(activeOpp)}
+                >
+                  <span>Model APY in Yield Simulator &rarr;</span>
+                </button>
+              )}
             </div>
           </aside>
         )}

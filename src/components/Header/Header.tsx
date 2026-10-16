@@ -3,8 +3,7 @@ import s from "./Header.module.css";
 import type { ProtocolMetrics } from "../../types/market";
 import { Logo } from "../Common/Logo";
 import { useOperator } from "../../context/OperatorContext";
-import type { ConnectionStatus } from "../../hooks/useLiveScanner";
-import { Wallet, Sparkles } from "lucide-react";
+import { Wallet } from "lucide-react";
 
 interface HeaderProps {
   activeTab: "matrix" | "trades" | "safety" | "simulator";
@@ -12,7 +11,7 @@ interface HeaderProps {
   metrics: ProtocolMetrics;
   circuitTripped?: boolean;
   onToggleMarketSession?: () => void;
-  scannerStatus?: ConnectionStatus;
+  scannerStatus?: string;
   tradeCount?: number;
 }
 
@@ -21,7 +20,6 @@ export const Header: React.FC<HeaderProps> = ({
   setActiveTab,
   metrics,
   circuitTripped = false,
-  scannerStatus = "connected",
   tradeCount = 0,
 }) => {
   const { operator, isConnected, openOperatorModal, openOperatorDrawer } = useOperator();
@@ -29,13 +27,13 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className={s.header}>
       <div className={s.headerInner}>
-        {/* Brand: Exact landing page logo & lowercase wordmark */}
+        {/* Brand */}
         <div className={s.brand} onClick={() => setActiveTab("matrix")}>
           <Logo size={22} />
           <span className={s.brandWordmark}>factor</span>
         </div>
 
-        {/* Navigation Tabs - Institutional Trading Hierarchy */}
+        {/* Primary Terminal Navigation */}
         <nav className={s.nav} aria-label="Terminal views">
           <button
             className={`${s.navItem} ${activeTab === "matrix" ? s.active : ""}`}
@@ -43,19 +41,15 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <span>Arbitrage Scanner</span>
             {metrics.clearingOpportunitiesCount > 0 && (
-              <span className={s.navCount}>{metrics.clearingOpportunitiesCount}</span>
+              <span className={s.countBadge}>{metrics.clearingOpportunitiesCount}</span>
             )}
           </button>
 
-          {/* Featured Proprietary Value-Prop */}
           <button
-            className={`${s.navItem} ${s.navItemFeatured} ${activeTab === "simulator" ? s.active : ""}`}
+            className={`${s.navItem} ${activeTab === "simulator" ? s.active : ""}`}
             onClick={() => setActiveTab("simulator")}
-            title="Institutional Yield Simulator: Model net arbitrage returns across taker fees, gas, and carrying capital"
           >
-            <Sparkles size={12} className={s.sparkleIcon} />
             <span>Yield Simulator</span>
-            <span className={s.featuredTag}>FEATURED</span>
           </button>
 
           <button
@@ -64,39 +58,21 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <span>Execution Blotter</span>
             {tradeCount > 0 && (
-              <span className={s.navCountTrades}>{tradeCount}</span>
+              <span className={s.countBadge}>{tradeCount}</span>
             )}
           </button>
         </nav>
 
-        {/* Header Right Actions */}
+        {/* Right Actions */}
         <div className={s.actions}>
-          {/* Institutional Market Telemetry */}
-          <div
-            className={s.marketStatus}
-            title="Institutional pricing telemetry synced across NYSE/NASDAQ equities and Solana Jupiter DEX"
-          >
-            <span className={scannerStatus === "connected" ? s.pulseDotGreen : s.pulseDotAmber} />
-            <span className={s.marketStatusText}>
-              {scannerStatus === "connected" ? "US Equities & Solana Active" : "Reconnecting Feeds..."}
-            </span>
-          </div>
-
-          <div className={s.actionSep} />
-
-          {/* Subtle Safety Indicator (Visible only if desk execution is paused, linking to Risk Controls) */}
           {circuitTripped && (
-            <>
-              <button
-                className={s.circuitStatusBadge}
-                onClick={() => setActiveTab("safety")}
-                title="Desk execution is paused by safety circuit. Click to review in Risk Controls."
-              >
-                <span className={s.statusDotAmber} />
-                <span>Execution Paused</span>
-              </button>
-              <div className={s.actionSep} />
-            </>
+            <button
+              className={s.circuitStatusBadge}
+              onClick={() => setActiveTab("safety")}
+              title="Desk execution is paused by safety circuit. Click to review in Risk Controls."
+            >
+              <span>Execution Paused</span>
+            </button>
           )}
 
           {/* Solana Wallet Access */}
@@ -106,7 +82,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={openOperatorDrawer}
               title="Open Connected Wallet & Risk Limits"
             >
-              <Wallet size={12} color="var(--lime)" />
+              <Wallet size={12} />
               <span className={s.walletAddress}>
                 {operator.address && operator.address.length > 12
                   ? `${operator.address.slice(0, 4)}...${operator.address.slice(-4)}`
@@ -118,7 +94,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               className={s.connectWalletBtn}
               onClick={openOperatorModal}
-              title="Connect Solana Wallet (Phantom, Solflare, Backpack)"
+              title="Connect Solana Wallet"
             >
               <Wallet size={13} />
               <span>Connect Wallet</span>

@@ -16,10 +16,11 @@ import {
   INITIAL_CIRCUIT_STATE,
   INITIAL_PROTOCOL_METRICS,
 } from "./engine/simulation";
-import type { CircuitBreakerState, ProtocolMetrics } from "./types/market";
+import type { ArbitrageOpportunity, CircuitBreakerState, ProtocolMetrics } from "./types/market";
 
 function AppContent() {
   const [activeTab, setActiveTab] = useState<"matrix" | "trades" | "safety" | "simulator">("matrix");
+  const [simulatorOpp, setSimulatorOpp] = useState<ArbitrageOpportunity | null>(null);
   const [tradeCount, setTradeCount] = useState<number>(0);
   const [selectedSizeUsd, setSelectedSizeUsd] = useState<number>(10000);
   const [marketSession, setMarketSession] = useState<"OPEN" | "CLOSED">("OPEN");
@@ -247,6 +248,10 @@ function AppContent() {
             setSelectedSizeUsd={setSelectedSizeUsd}
             onSelectOpportunity={() => {}}
             onRefreshFeed={handleRefreshFeed}
+            onSendToSimulator={(opp) => {
+              setSimulatorOpp(opp);
+              setActiveTab("simulator");
+            }}
             onToast={addToast}
             circuitTripped={circuitState.tripped}
             onTradeExecuted={() => setTradeCount((prev) => prev + 1)}
@@ -274,7 +279,12 @@ function AppContent() {
         )}
 
         {activeTab === "simulator" && (
-          <YieldSimulator onToast={addToast} />
+          <YieldSimulator
+            initialSpreadBps={simulatorOpp ? simulatorOpp.grossSpreadBps : undefined}
+            initialTicker={simulatorOpp ? simulatorOpp.symbol : undefined}
+            initialSizeUsd={selectedSizeUsd}
+            onToast={addToast}
+          />
         )}
       </main>
 

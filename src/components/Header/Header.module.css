@@ -2,9 +2,9 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(12, 12, 13, 0.88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(10, 10, 11, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
 }
 
@@ -12,19 +12,19 @@
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 24px;
-  height: 58px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 24px;
 }
 
-/* Brand: Exact factor-landing-page styling */
+/* Brand */
 .brand {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font: 600 22px/1 var(--font-display), sans-serif;
+  font: 600 21px/1 var(--font-display), sans-serif;
   letter-spacing: -0.045em;
   color: var(--text);
   cursor: pointer;
@@ -37,11 +37,11 @@
   line-height: 1;
 }
 
-/* Navigation Tabs - Borderless Institutional Menu */
+/* Navigation Tabs - Clean, authentic, institutional */
 .nav {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   background: transparent;
   padding: 0;
   border: none;
@@ -51,163 +51,61 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 7px 14px;
-  border-radius: var(--radius-sm);
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 450;
   color: var(--text-muted);
   background: transparent;
-  border: 1px solid transparent;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
+  transition: color 0.12s ease, background-color 0.12s ease;
   cursor: pointer;
   letter-spacing: -0.01em;
 }
 
 .navItem:hover {
-  color: var(--text);
+  color: #ffffff;
   background: rgba(255, 255, 255, 0.04);
 }
 
 .navItem.active {
-  color: var(--text);
-  background: var(--surface-2);
-  border-color: var(--line-strong);
-  font-weight: 600;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 500;
 }
 
-/* Featured Tab: Yield Simulator */
-.navItemFeatured {
-  border: 1px solid rgba(206, 255, 26, 0.18);
-  background: rgba(206, 255, 26, 0.03);
-}
-
-.navItemFeatured:hover {
-  border-color: rgba(206, 255, 26, 0.4);
-  background: rgba(206, 255, 26, 0.08);
-  color: var(--text);
-}
-
-.navItemFeatured.active {
-  background: rgba(206, 255, 26, 0.1);
-  border-color: var(--lime);
-  color: var(--text);
-  box-shadow: 0 0 14px rgba(206, 255, 26, 0.15);
-}
-
-.sparkleIcon {
-  color: var(--lime);
-}
-
-.featuredTag {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  padding: 1.5px 5px;
-  border-radius: 999px;
-  background: rgba(206, 255, 26, 0.18);
-  color: var(--lime);
-  border: 1px solid rgba(206, 255, 26, 0.35);
-  margin-left: 2px;
-}
-
-.navCount {
+.countBadge {
   font-family: var(--font-mono);
   font-size: 10.5px;
-  font-weight: 700;
-  padding: 1px 6px;
-  border-radius: 999px;
-  background: rgba(206, 255, 26, 0.14);
-  color: var(--lime);
-  border: 1px solid rgba(206, 255, 26, 0.28);
+  font-weight: 500;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--dim);
 }
 
-.navCountTrades {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  font-weight: 700;
-  padding: 1px 6px;
-  border-radius: 999px;
-  background: rgba(56, 189, 248, 0.12);
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.25);
+.navItem.active .countBadge {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
 }
 
 /* Right Actions */
 .actions {
   display: flex;
   align-items: center;
-  gap: 16px;
-}
-
-/* Institutional Market Telemetry */
-.marketStatus {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--line);
-  cursor: default;
-  user-select: none;
-}
-
-.marketStatusText {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-muted);
-  letter-spacing: 0.02em;
-}
-
-.pulseDotGreen {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--lime);
-  box-shadow: 0 0 8px var(--lime);
-  animation: statusPulse 2s infinite ease-in-out;
-}
-
-.pulseDotAmber {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #f59e0b;
-  box-shadow: 0 0 8px #f59e0b;
-  animation: statusPulse 1.5s infinite ease-in-out;
-}
-
-@keyframes statusPulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.55;
-    transform: scale(0.9);
-  }
-}
-
-.actionSep {
-  width: 1px;
-  height: 16px;
-  background: var(--line);
+  gap: 10px;
 }
 
 /* Subtle Safety Indicator (Visible only if desk execution is paused) */
 .circuitStatusBadge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
   height: 28px;
   padding: 0 10px;
-  border-radius: var(--radius-sm);
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 4px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
   color: #fbbf24;
   font-family: var(--font-mono);
   font-size: 11px;
@@ -217,25 +115,17 @@
 }
 
 .circuitStatusBadge:hover {
-  background: rgba(245, 158, 11, 0.15);
-  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.18);
   color: #fef3c7;
-}
-
-.statusDotAmber {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #f59e0b;
 }
 
 .walletBtn {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  height: 32px;
-  padding: 0 11px;
-  border-radius: var(--radius-sm);
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 6px;
   background: var(--surface-2);
   border: 1px solid var(--line-strong);
   color: var(--text);
@@ -246,8 +136,8 @@
 }
 
 .walletBtn:hover {
-  border-color: var(--lime-border);
-  color: var(--lime);
+  border-color: #555555;
+  color: #ffffff;
 }
 
 .walletAddress {
@@ -270,9 +160,9 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 32px;
-  padding: 0 13px;
-  border-radius: var(--radius-sm);
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 6px;
   background: var(--surface-2);
   border: 1px solid var(--line-strong);
   color: var(--text);
@@ -285,11 +175,11 @@
 
 .connectWalletBtn:hover {
   background: var(--surface-3);
-  border-color: var(--lime-border);
-  color: var(--lime);
+  color: #ffffff;
+  border-color: #555555;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 800px) {
   .headerInner {
     height: auto;
     padding: 10px 16px;
