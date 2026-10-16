@@ -215,24 +215,6 @@
   transform: translateY(-1px);
 }
 
-.useDemoBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 12px;
-  border-radius: 4px;
-  background: var(--surface-3);
-  border: 1px solid var(--line);
-  color: var(--text);
-  font-size: 11.5px;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.useDemoBtn:hover {
-  background: var(--surface-2);
-  border-color: var(--line-strong);
-}
 
 /* Wallets List */
 .walletList {
@@ -351,88 +333,6 @@
   to { transform: rotate(360deg); }
 }
 
-/* Explicit Demo Testing Section */
-.demoSection {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 4px;
-}
-
-.demoDivider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: var(--dim);
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  letter-spacing: 0.08em;
-}
-
-.demoDivider::before,
-.demoDivider::after {
-  content: "";
-  flex: 1;
-  border-bottom: 1px solid var(--line);
-}
-
-.demoDivider span {
-  padding: 0 10px;
-}
-
-.demoBox {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 11px 14px;
-  border-radius: var(--radius-sm);
-  background: var(--surface-2);
-  border: 1px dashed var(--line-strong);
-}
-
-.demoText {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.demoTitle {
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.demoDesc {
-  font-size: 11px;
-  color: var(--dim);
-  margin: 0;
-  max-width: 250px;
-  line-height: 1.35;
-}
-
-.demoLaunchBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 28px;
-  padding: 0 12px;
-  border-radius: 4px;
-  background: var(--surface-3);
-  border: 1px solid var(--line);
-  color: var(--text);
-  font-family: var(--font-sans);
-  font-size: 11.5px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: var(--transition);
-}
-
-.demoLaunchBtn:hover {
-  background: var(--surface-1);
-  border-color: var(--line-strong);
-  color: var(--lime);
-}
 
 /* Security Note */
 .securityNote {

@@ -9,7 +9,6 @@ export const OperatorModal: React.FC = () => {
     isOperatorModalOpen,
     closeOperatorModal,
     connectWallet,
-    connectSimulatedWallet,
     logout,
   } = useOperator();
 
@@ -87,10 +86,6 @@ export const OperatorModal: React.FC = () => {
     }
   };
 
-  const handleConnectDemo = (walletType: "phantom" | "solflare" | "backpack" = "phantom") => {
-    setAlertNotice(null);
-    connectSimulatedWallet(walletType);
-  };
 
   const wallets = [
     {
@@ -179,12 +174,6 @@ export const OperatorModal: React.FC = () => {
                       <ExternalLink size={12} />
                     </a>
                   )}
-                  <button
-                    className={s.useDemoBtn}
-                    onClick={() => handleConnectDemo(alertNotice.walletId || "phantom")}
-                  >
-                    <span>Use Demo Wallet Instead</span>
-                  </button>
                 </div>
               )}
             </div>
@@ -232,27 +221,6 @@ export const OperatorModal: React.FC = () => {
             })}
           </div>
 
-          {/* Explicit Demo Wallet Option */}
-          <div className={s.demoSection}>
-            <div className={s.demoDivider}>
-              <span>TESTING MODE</span>
-            </div>
-            <div className={s.demoBox}>
-              <div className={s.demoText}>
-                <span className={s.demoTitle}>Simulate Without Extension</span>
-                <p className={s.demoDesc}>
-                  Test settlement gates and Yield Modeler with an institutional sandbox wallet.
-                </p>
-              </div>
-              <button
-                className={s.demoLaunchBtn}
-                onClick={() => handleConnectDemo("phantom")}
-                disabled={connectingWallet !== null}
-              >
-                Launch Demo
-              </button>
-            </div>
-          </div>
 
           <div className={s.securityNote}>
             <strong>Zero-Knowledge Read:</strong> Factor evaluates pre-trade execution gates deterministically. Private keys never leave your browser extension.
