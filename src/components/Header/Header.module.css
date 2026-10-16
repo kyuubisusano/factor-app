@@ -81,6 +81,14 @@
   margin-left: 2px;
 }
 
+.navCountTrades {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #7dd3fc;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
 /* Right Actions - Clean, quiet institutional layout (NO PILL CLUSTERS) */
 .actions {
   display: flex;
@@ -107,6 +115,78 @@
   width: 1px;
   height: 16px;
   background: var(--line);
+}
+
+/* Emergency Panic Kill Switch Button */
+.emergencyStopBtnArmed {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.emergencyStopBtnArmed:hover {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.7);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
+}
+
+.emergencyStopBtnTripped {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(239, 68, 68, 0.95);
+  border: 1px solid #ff4d4d;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.6);
+  animation: pulseTripped 2s infinite ease-in-out;
+}
+
+.emergencyStopBtnTripped:hover {
+  background: #dc2626;
+}
+
+.pulsingDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 6px #ffffff;
+  animation: blinkDot 1s infinite alternate;
+}
+
+@keyframes pulseTripped {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(239, 68, 68, 0.9);
+  }
+}
+
+@keyframes blinkDot {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
 }
 
 .walletBtn {

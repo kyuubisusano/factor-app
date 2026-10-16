@@ -1,17 +1,21 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { loginOperatorApi, registerOperatorApi } from "../services/api";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { loginOperatorApi, registerOperatorApi, fetchLiveInventory } from "../services/api";
+import { VersionedTransaction } from "@solana/web3.js";
 
 export interface OperatorProfile {
   id: string;
   type: "wallet" | "desk";
   label: string;
   address?: string;
+  walletType?: "phantom" | "solflare" | "backpack";
   deskCode?: string;
   firmName?: string;
   connectedAt: number;
   riskFloorBps: number;
   maxSizeUsd: number;
   simulatedBalanceSol: number;
+  solBalance?: number;
+  usdcBalance?: number;
   isSimulated?: boolean;
 }
 
@@ -33,6 +37,8 @@ interface OperatorContextType {
   closeOperatorDrawer: () => void;
   connectWallet: (walletType: "phantom" | "solflare" | "backpack") => Promise<ConnectResult>;
   connectSimulatedWallet: (walletType?: "phantom" | "solflare" | "backpack") => void;
+  signSolanaTransaction: (txBase64: string) => Promise<string>;
+  refreshBalances: () => Promise<void>;
   loginDesk: (params: {
     operatorName: string;
     deskCode: string;
@@ -144,15 +150,35 @@ export const OperatorProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         type: "wallet",
         label: `${providerName} (${shortAddress})`,
         address: pubkey,
+        walletType,
         connectedAt: Date.now(),
         riskFloorBps: DEFAULT_RISK_FLOOR,
         maxSizeUsd: DEFAULT_MAX_SIZE,
         simulatedBalanceSol: 25.5,
+        solBalance: 0,
+        usdcBalance: 0,
         isSimulated: false,
       };
 
       setOperator(profile);
       setIsOperatorModalOpen(false);
+
+      // Async live balance query
+      fetchLiveInventory(pubkey).then((inv) => {
+        if (inv?.solana) {
+          setOperator((prev) =>
+            prev && prev.address === pubkey
+              ? {
+                  ...prev,
+                  solBalance: inv.solana.sol,
+                  usdcBalance: inv.solana.usdc,
+                  simulatedBalanceSol: inv.solana.sol,
+                }
+              : prev
+          );
+        }
+      });
+
       return { success: true };
     } catch (err: any) {
       console.warn(`User rejected or error during ${walletType} connection:`, err);
@@ -296,6 +322,54 @@ export const OperatorProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     });
   };
 
+  const signSolanaTransaction = async (txBase64: string): Promise<string> => {
+    if (!operator || !operator.walletType) {
+      throw new Error("No real wallet connected to sign transaction.");
+    }
+    const provider = getInstalledProvider(operator.walletType);
+    if (!provider) {
+      throw new Error(`Wallet provider for ${operator.walletType} not found.`);
+    }
+
+    const binaryString = atob(txBase64);
+    const rawTx = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      rawTx[i] = binaryString.charCodeAt(i);
+    }
+    const vTx = VersionedTransaction.deserialize(rawTx);
+
+    if (provider.signTransaction) {
+      const signed = await provider.signTransaction(vTx);
+      const serialized = signed.serialize();
+      let binary = "";
+      for (let i = 0; i < serialized.length; i++) {
+        binary += String.fromCharCode(serialized[i]);
+      }
+      return btoa(binary);
+    } else if (provider.signAndSendTransaction) {
+      const res = await provider.signAndSendTransaction(vTx);
+      return res.signature || (typeof res === "string" ? res : "");
+    }
+    throw new Error("Connected wallet does not support signTransaction.");
+  };
+
+  const refreshBalances = useCallback(async () => {
+    if (!operator?.address || operator.isSimulated) return;
+    const inv = await fetchLiveInventory(operator.address);
+    if (inv?.solana) {
+      setOperator((prev) =>
+        prev
+          ? {
+              ...prev,
+              solBalance: inv.solana.sol,
+              usdcBalance: inv.solana.usdc,
+              simulatedBalanceSol: inv.solana.sol,
+            }
+          : null
+      );
+    }
+  }, [operator?.address, operator?.isSimulated]);
+
   return (
     <OperatorContext.Provider
       value={{
@@ -309,6 +383,8 @@ export const OperatorProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         closeOperatorDrawer: () => setIsOperatorDrawerOpen(false),
         connectWallet,
         connectSimulatedWallet,
+        signSolanaTransaction,
+        refreshBalances,
         loginDesk,
         loginDeskByCode,
         registerDesk,

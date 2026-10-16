@@ -4,22 +4,27 @@ import type { ProtocolMetrics } from "../../types/market";
 import { Logo } from "../Common/Logo";
 import { useOperator } from "../../context/OperatorContext";
 import type { ConnectionStatus } from "../../hooks/useLiveScanner";
-import { Wallet } from "lucide-react";
+import { Wallet, AlertTriangle } from "lucide-react";
 
 interface HeaderProps {
-  activeTab: "matrix" | "safety" | "simulator";
-  setActiveTab: (tab: "matrix" | "safety" | "simulator") => void;
+  activeTab: "matrix" | "trades" | "safety" | "simulator";
+  setActiveTab: (tab: "matrix" | "trades" | "safety" | "simulator") => void;
   metrics: ProtocolMetrics;
   circuitTripped?: boolean;
+  onToggleCircuit?: () => void;
   onToggleMarketSession?: () => void;
   scannerStatus?: ConnectionStatus;
+  tradeCount?: number;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   setActiveTab,
   metrics,
+  circuitTripped = false,
+  onToggleCircuit,
   scannerStatus = "connected",
+  tradeCount = 0,
 }) => {
   const { operator, isConnected, openOperatorModal, openOperatorDrawer } = useOperator();
 
@@ -44,6 +49,15 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </button>
           <button
+            className={`${s.navItem} ${activeTab === "trades" ? s.active : ""}`}
+            onClick={() => setActiveTab("trades")}
+          >
+            <span>Trades & PnL</span>
+            {tradeCount > 0 && (
+              <span className={s.navCountTrades}>({tradeCount})</span>
+            )}
+          </button>
+          <button
             className={`${s.navItem} ${activeTab === "safety" ? s.active : ""}`}
             onClick={() => setActiveTab("safety")}
           >
@@ -64,6 +78,30 @@ export const Header: React.FC<HeaderProps> = ({
               <span>{scannerStatus === "connected" ? "22 pairs synced" : "Reconnecting feeds..."}</span>
             </span>
           </div>
+
+          <div className={s.actionSep} />
+
+          {/* Emergency Panic Kill Switch Button */}
+          {circuitTripped ? (
+            <button
+              className={s.emergencyStopBtnTripped}
+              onClick={onToggleCircuit}
+              title="EMERGENCY TRIPPED: All execution pipelines halted across desk. Click to reset."
+            >
+              <span className={s.pulsingDot} />
+              <AlertTriangle size={13} />
+              <span>HALTED (RESET)</span>
+            </button>
+          ) : (
+            <button
+              className={s.emergencyStopBtnArmed}
+              onClick={onToggleCircuit}
+              title="EMERGENCY STOP: Click to immediately trip circuit breaker and halt all trading pipelines."
+            >
+              <AlertTriangle size={13} />
+              <span>KILL SWITCH</span>
+            </button>
+          )}
 
           <div className={s.actionSep} />
 

@@ -168,6 +168,17 @@ export async function simulateBackendExecution(payload: {
   return { success: true, ticket: fallbackTicket };
 }
 
+export interface ExecutionSummary {
+  totalRealizedPnlUsd: number;
+  totalVolumeUsd: number;
+  totalTrades: number;
+  liveTrades: number;
+  simulatedTrades: number;
+  unwoundTrades: number;
+  avgNetBps: number;
+  winRatePct: number;
+}
+
 export async function getExecutionHistory(limit = 20): Promise<ExecutionRecord[]> {
   try {
     const res = await fetch(`${API_BASE}/executions?limit=${limit}`, {
@@ -178,6 +189,36 @@ export async function getExecutionHistory(limit = 20): Promise<ExecutionRecord[]
     return data.executions || [];
   } catch {
     return [];
+  }
+}
+
+export async function getExecutionAnalytics(limit = 100): Promise<{
+  executions: ExecutionRecord[];
+  summary: ExecutionSummary;
+}> {
+  const defaultSummary: ExecutionSummary = {
+    totalRealizedPnlUsd: 0,
+    totalVolumeUsd: 0,
+    totalTrades: 0,
+    liveTrades: 0,
+    simulatedTrades: 0,
+    unwoundTrades: 0,
+    avgNetBps: 0,
+    winRatePct: 0,
+  };
+
+  try {
+    const res = await fetch(`${API_BASE}/executions?limit=${limit}`, {
+      signal: AbortSignal.timeout(4000),
+    });
+    if (!res.ok) return { executions: [], summary: defaultSummary };
+    const data = await res.json();
+    return {
+      executions: data.executions || [],
+      summary: data.summary || defaultSummary,
+    };
+  } catch {
+    return { executions: [], summary: defaultSummary };
   }
 }
 
@@ -244,3 +285,123 @@ export async function listOperatorsApi(): Promise<OperatorRecord[]> {
     return [];
   }
 }
+
+export interface LiveInventoryResponse {
+  solana: {
+    address: string;
+    sol: number;
+    usdc: number;
+    tokens: Record<string, number>;
+    timestamp: number;
+  };
+  kraken: {
+    venue: string;
+    configured: boolean;
+    usdBalance: number;
+    usdtBalance: number;
+    tokens: Record<string, number>;
+    timestamp: number;
+  };
+  timestamp: number;
+}
+
+export async function fetchLiveInventory(wallet?: string): Promise<LiveInventoryResponse | null> {
+  try {
+    const url = wallet ? `${API_BASE}/inventory?wallet=${encodeURIComponent(wallet)}` : `${API_BASE}/inventory`;
+    const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+export interface TradeQuoteResponse {
+  symbol: string;
+  sizeUsd: number;
+  buyPrice: number;
+  sellPrice: number;
+  riskGate: {
+    passed: boolean;
+    netEdgeBps: number;
+    grossSpreadBps: number;
+    projectedProfitUsd: number;
+    reason?: string;
+    checks: {
+      edgeAboveTheta: boolean;
+      exposureWithinCap: boolean;
+      circuitArmed: boolean;
+      marketOpen: boolean;
+    };
+  };
+  inventoryCheck: {
+    ok: boolean;
+    requiredBuyQuoteUsd: number;
+    availableBuyQuoteUsd: number;
+    reason?: string;
+  };
+  jupiterQuote?: any;
+  swapTransactionBase64?: string | null;
+  timestamp: number;
+}
+
+export async function fetchTradeQuote(payload: {
+  symbol: string;
+  sizeUsd: number;
+  buyVenue: string;
+  sellVenue: string;
+  userPublicKey?: string;
+  slippageBps?: number;
+}): Promise<TradeQuoteResponse | null> {
+  try {
+    const res = await fetch(`${API_BASE}/trade/quote`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(6000),
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+export interface TradeExecutionResponse {
+  success: boolean;
+  ticket?: ExecutionRecord;
+  solanaTxHash?: string;
+  cexOrderId?: string;
+  unwindNotice?: string;
+  status: string;
+  message: string;
+  error?: string;
+}
+
+export async function executeLiveTrade(payload: {
+  symbol: string;
+  sizeUsd: number;
+  buyVenue: string;
+  sellVenue: string;
+  operatorId?: string;
+  signedTxBase64?: string;
+  dryRun?: boolean;
+}): Promise<TradeExecutionResponse> {
+  try {
+    const res = await fetch(`${API_BASE}/trade/execute`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(10000),
+    });
+    return await res.json();
+  } catch (e) {
+    return {
+      success: false,
+      status: "NETWORK_ERROR",
+      message: (e as Error).message,
+      error: (e as Error).message,
+    };
+  }
+}
+

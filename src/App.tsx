@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Header } from "./components/Header/Header";
 import { MatrixView } from "./components/Matrix/MatrixView";
+import { TradesView } from "./components/Trades/TradesView";
 import { CircuitBreakerPanel } from "./components/Safety/CircuitBreakerPanel";
 import { YieldSimulator } from "./components/Simulator/YieldSimulator";
 import { ToastContainer, type ToastMessage } from "./components/Common/Toast";
@@ -10,7 +11,7 @@ import { OperatorProvider } from "./context/OperatorContext";
 import { OperatorModal } from "./components/Auth/OperatorModal";
 import { OperatorDrawer } from "./components/Operator/OperatorDrawer";
 import { useLiveScanner } from "./hooks/useLiveScanner";
-import { getBackendStatus, toggleCircuitBackend } from "./services/api";
+import { getBackendStatus, toggleCircuitBackend, getExecutionHistory } from "./services/api";
 import {
   INITIAL_CIRCUIT_STATE,
   INITIAL_PROTOCOL_METRICS,
@@ -18,7 +19,8 @@ import {
 import type { CircuitBreakerState, ProtocolMetrics } from "./types/market";
 
 function AppContent() {
-  const [activeTab, setActiveTab] = useState<"matrix" | "safety" | "simulator">("matrix");
+  const [activeTab, setActiveTab] = useState<"matrix" | "trades" | "safety" | "simulator">("matrix");
+  const [tradeCount, setTradeCount] = useState<number>(0);
   const [selectedSizeUsd, setSelectedSizeUsd] = useState<number>(10000);
   const [marketSession, setMarketSession] = useState<"OPEN" | "CLOSED">("OPEN");
   const [rebalanceKnown, setRebalanceKnown] = useState<boolean>(true);
@@ -193,8 +195,10 @@ function AppContent() {
         if (e.key === "1") {
           setActiveTab("matrix");
         } else if (e.key === "2") {
-          setActiveTab("safety");
+          setActiveTab("trades");
         } else if (e.key === "3") {
+          setActiveTab("safety");
+        } else if (e.key === "4") {
           setActiveTab("simulator");
         } else if (e.key === "r" || e.key === "R") {
           e.preventDefault();
@@ -214,16 +218,25 @@ function AppContent() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  // Initial fetch of trade count
+  useEffect(() => {
+    getExecutionHistory(100).then((rows) => {
+      if (rows && rows.length > 0) setTradeCount(rows.length);
+    });
+  }, []);
+
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      {/* Top Header with live scanner status & operator button */}
+      {/* Top Header with live scanner status, Emergency Stop & operator button */}
       <Header
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         metrics={metrics}
         circuitTripped={circuitState.tripped}
+        onToggleCircuit={handleToggleCircuit}
         onToggleMarketSession={handleToggleMarketSession}
         scannerStatus={scannerStatus}
+        tradeCount={tradeCount}
       />
 
       {/* Active Workspace View */}
@@ -235,6 +248,15 @@ function AppContent() {
             setSelectedSizeUsd={setSelectedSizeUsd}
             onSelectOpportunity={() => {}}
             onRefreshFeed={handleRefreshFeed}
+            onToast={addToast}
+            circuitTripped={circuitState.tripped}
+            onTradeExecuted={() => setTradeCount((prev) => prev + 1)}
+          />
+        )}
+
+        {activeTab === "trades" && (
+          <TradesView
+            onNavigateToMatrix={() => setActiveTab("matrix")}
             onToast={addToast}
           />
         )}

@@ -11,10 +11,8 @@ import {
 import s from "./MatrixView.module.css";
 import type { ArbitrageOpportunity, VenueId } from "../../types/market";
 import { formatBps, formatCurrency, calculateEdge } from "../../engine/edge";
-import { simulateBackendExecution, type ExecutionRecord } from "../../services/api";
-import { useOperator } from "../../context/OperatorContext";
-import { ExecutionTicketModal } from "../Simulator/ExecutionTicketModal";
 import { DislocationModal } from "../Inspector/DislocationModal";
+import { TradeDrawer } from "../Execution/TradeDrawer";
 import { normalizeCategory } from "../../hooks/useLiveScanner";
 
 interface MatrixViewProps {
@@ -25,6 +23,8 @@ interface MatrixViewProps {
   onRefreshFeed: () => void;
   onSendToSimulator?: (opp: ArbitrageOpportunity) => void;
   onToast?: (toast: { type: "success" | "info" | "warning"; title: string; message?: string }) => void;
+  circuitTripped?: boolean;
+  onTradeExecuted?: () => void;
 }
 
 export const MatrixView: React.FC<MatrixViewProps> = ({
@@ -33,6 +33,8 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
   setSelectedSizeUsd,
   onRefreshFeed,
   onToast,
+  circuitTripped = false,
+  onTradeExecuted,
 }) => {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -146,73 +148,8 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
     }
   };
 
-  const { operator } = useOperator();
-  const [activeTicket, setActiveTicket] = useState<ExecutionRecord | null>(null);
-  const [isSimulating, setIsSimulating] = useState(false);
   const [isDislocationOpen, setIsDislocationOpen] = useState(false);
-
-  const handleSimulateExecution = async () => {
-    if (!activeOpp || !edgeResult) return;
-    setIsSimulating(true);
-
-    try {
-      const res = await simulateBackendExecution({
-        symbol: activeOpp.symbol,
-        sizeUsd: inspectorSize,
-        buyVenue: activeOpp.buyVenue,
-        sellVenue: activeOpp.sellVenue,
-        operatorId: operator
-          ? operator.type === "wallet"
-            ? operator.address
-            : operator.deskCode
-          : "DESK-GUEST",
-      });
-
-      if (res.success && res.ticket) {
-        setActiveTicket(res.ticket);
-        if (onToast) {
-          onToast({
-            type: "success",
-            title: "Execution Stamped",
-            message: `Recorded ${res.ticket.id} in SQLite. Net profit: ${formatCurrency(res.ticket.dollarProfit)}.`,
-          });
-        }
-      } else {
-        // Fallback simulated execution ticket
-        const fallbackTicket: ExecutionRecord = {
-          id: `TX-SOL-${Date.now().toString(36).toUpperCase()}`,
-          ts: Date.now(),
-          symbol: activeOpp.symbol,
-          operatorId: operator
-            ? operator.type === "wallet"
-              ? operator.address || "SOL-WALLET"
-              : operator.deskCode || "DESK"
-            : "DESK-GUEST",
-          buyVenue: activeOpp.buyVenue,
-          sellVenue: activeOpp.sellVenue,
-          sizeUsd: inspectorSize,
-          buyPrice: activeOpp.buyPrice,
-          sellPrice: activeOpp.sellPrice,
-          grossBps: activeOpp.grossSpreadBps,
-          feesBps: 8.0,
-          netBps: edgeResult.netEdgeBps,
-          dollarProfit: edgeResult.netDollarProfit,
-          gatesJson: JSON.stringify(activeOpp.gates),
-          status: "FILLED_SIMULATED",
-        };
-        setActiveTicket(fallbackTicket);
-        if (onToast) {
-          onToast({
-            type: "success",
-            title: "Execution Stamped",
-            message: `Simulated trade ticket generated: ${formatCurrency(edgeResult.netDollarProfit)} profit.`,
-          });
-        }
-      }
-    } finally {
-      setIsSimulating(false);
-    }
-  };
+  const [isTradeDrawerOpen, setIsTradeDrawerOpen] = useState(false);
 
 
   const clearingCount = opportunities.filter((o) => o.clears).length;
@@ -570,15 +507,15 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
 
               {/* Primary Action Button - Immediately reachable without scrolling */}
               <button
-                className={`${s.execBtn} ${!edgeResult.clears || isSimulating ? s.execBtnDisabled : ""}`}
-                disabled={!edgeResult.clears || isSimulating}
-                onClick={handleSimulateExecution}
+                className={`${s.execBtn} ${!edgeResult.clears || circuitTripped ? s.execBtnDisabled : ""}`}
+                disabled={!edgeResult.clears || circuitTripped}
+                onClick={() => setIsTradeDrawerOpen(true)}
               >
                 <ArrowUpRight size={15} />
                 <span>
-                  {isSimulating
-                    ? "Routing & Executing..."
-                    : `Simulate Execution (${formatCurrency(edgeResult.netDollarProfit)} profit)`}
+                  {circuitTripped
+                    ? "Execution Halted (Kill Switch)"
+                    : `Execute Arbitrage (+${formatCurrency(edgeResult.netDollarProfit)} profit)`}
                 </span>
               </button>
             </div>
@@ -586,8 +523,17 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
         )}
       </div>
 
-      {/* Stamped Execution Ticket Modal */}
-      <ExecutionTicketModal ticket={activeTicket} onClose={() => setActiveTicket(null)} />
+      {/* Real Live Arbitrage Execution Drawer */}
+      {isTradeDrawerOpen && activeOpp && (
+        <TradeDrawer
+          opp={activeOpp}
+          initialSizeUsd={inspectorSize}
+          circuitTripped={circuitTripped}
+          onTradeExecuted={onTradeExecuted}
+          onClose={() => setIsTradeDrawerOpen(false)}
+          onToast={onToast}
+        />
+      )}
 
       {/* Deep Orderbook Dislocation Modal */}
       {isDislocationOpen && activeOpp && (

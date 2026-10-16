@@ -1,0 +1,107 @@
+.blotterContainer {
+  background: #11141a;
+  border: 1px solid #1f2530;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.blotterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.stageList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stageItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.stageIcon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 10px;
+}
+
+.iconDone {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.iconActive {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  animation: spin 1s linear infinite;
+}
+
+.iconPending {
+  background: #1a1e24;
+  color: #4b5563;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.stageText {
+  flex: 1;
+  color: #d1d5db;
+}
+
+.stageActiveText {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.txLink {
+  color: #3b82f6;
+  text-decoration: underline;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-family: monospace;
+  font-size: 11px;
+}
+
+.txLink:hover {
+  color: #60a5fa;
+}
+
+.successBanner {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.successTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #10b981;
+}
+
+.successDesc {
+  font-size: 12px;
+  color: #d1fae5;
+}
