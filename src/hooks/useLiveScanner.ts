@@ -46,7 +46,9 @@ export function useLiveScanner({
     const raw = generateOpportunities(marketSession, rebalanceKnown, circuitTripped);
     return raw.map((o) => ({ ...o, category: normalizeCategory(o.category) }));
   });
-  const [status, setStatus] = useState<ConnectionStatus>("connecting");
+  const [status, setStatus] = useState<ConnectionStatus>(() =>
+    getSseStreamUrl() ? "connecting" : "connected"
+  );
   const [lastTickTime, setLastTickTime] = useState<number>(Date.now());
   const eventSourceRef = useRef<EventSource | null>(null);
   const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);

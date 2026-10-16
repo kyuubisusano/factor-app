@@ -109,7 +109,9 @@ export function generateOpportunities(
       };
     });
 
-    // Pairwise evaluation
+    // Pairwise evaluation - select the single best dislocation route for this equity
+    let bestOppForEquity: ArbitrageOpportunity | null = null;
+
     for (const buyVenue of venues) {
       for (const sellVenue of venues) {
         if (buyVenue === sellVenue) continue;
@@ -160,7 +162,7 @@ export function generateOpportunities(
           gates.noHold &&
           gates.circuitArmed;
 
-        opportunities.push({
+        const opp: ArbitrageOpportunity = {
           id: `${eq.underlying}:${buyVenue}-${sellVenue}`,
           underlying: eq.underlying,
           symbol: eq.symbol,
@@ -200,8 +202,16 @@ export function generateOpportunities(
             edge.grossSpreadBps,
           ],
           lastUpdated: now,
-        });
+        };
+
+        if (!bestOppForEquity || opp.netEdgeBps > bestOppForEquity.netEdgeBps) {
+          bestOppForEquity = opp;
+        }
       }
+    }
+
+    if (bestOppForEquity) {
+      opportunities.push(bestOppForEquity);
     }
   }
 
@@ -231,7 +241,7 @@ export const INITIAL_CIRCUIT_STATE: CircuitBreakerState = {
 
 export const INITIAL_PROTOCOL_METRICS: ProtocolMetrics = {
   totalMonitoredLiquidityUsd: 22840000,
-  activePairsCount: 100,
+  activePairsCount: 22,
   clearingOpportunitiesCount: 4,
   sofrBenchmarkRate: 0.0388,
   solanaSlot: 341892041,
