@@ -583,11 +583,25 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  color: var(--ink);
 }
 
 .rTotal b {
   font-size: 16px;
   letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.receipt .edgeGreen,
+.rTotal b.edgeGreen {
+  color: #14532d !important;
+  font-weight: 700;
+}
+
+.receipt .edgeRed,
+.rTotal b.edgeRed {
+  color: #991b1b !important;
+  font-weight: 700;
 }
 
 .rStampArea {
