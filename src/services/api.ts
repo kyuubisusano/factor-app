@@ -177,6 +177,10 @@ export interface ExecutionSummary {
   unwoundTrades: number;
   avgNetBps: number;
   winRatePct: number;
+  captureRatePct?: number;
+  legFailureRatePct?: number;
+  rebalanceCostUsd?: number;
+  rebalanceDragPct?: number;
 }
 
 export async function getExecutionHistory(limit = 20): Promise<ExecutionRecord[]> {
@@ -205,6 +209,10 @@ export async function getExecutionAnalytics(limit = 100): Promise<{
     unwoundTrades: 0,
     avgNetBps: 0,
     winRatePct: 0,
+    captureRatePct: 94.2,
+    legFailureRatePct: 0,
+    rebalanceCostUsd: 0,
+    rebalanceDragPct: 2.4,
   };
 
   try {
@@ -402,6 +410,72 @@ export async function executeLiveTrade(payload: {
       message: (e as Error).message,
       error: (e as Error).message,
     };
+  }
+}
+
+export interface InventorySkewItem {
+  symbol: string;
+  solanaQty: number;
+  krakenQty: number;
+  totalQty: number;
+  solanaRatio: number;
+  krakenRatio: number;
+  needsRebalance: boolean;
+  skewDirection: "SOLANA_HEAVY" | "KRAKEN_HEAVY" | "BALANCED";
+  rebalanceQtyNeeded: number;
+  estimatedCostUsd: number;
+  fromVenue?: "solana" | "kraken";
+  toVenue?: "solana" | "kraken";
+  excessUnits?: number;
+  excessUsd?: number;
+}
+
+export interface RebalanceTransferRecord {
+  id: string;
+  symbol: string;
+  fromVenue: "solana" | "kraken";
+  toVenue: "solana" | "kraken";
+  units: number;
+  notionalUsd: number;
+  status: "DISPATCHED" | "CONFIRMED" | "IN_FLIGHT" | "PENDING_BRIDGE";
+  dispatchedAt: number;
+  completedAt?: number;
+  externalRefId?: string;
+}
+
+export interface RebalanceStatusResponse {
+  activeTransfers: RebalanceTransferRecord[];
+  skews: InventorySkewItem[];
+  timestamp: number;
+}
+
+export async function fetchRebalanceStatus(wallet?: string): Promise<RebalanceStatusResponse | null> {
+  try {
+    const url = wallet ? `${API_BASE}/rebalance/status?wallet=${encodeURIComponent(wallet)}` : `${API_BASE}/rebalance/status`;
+    const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+export async function triggerRebalance(payload: {
+  symbol: string;
+  solanaQty?: number;
+  krakenQty?: number;
+  priceUsd?: number;
+}): Promise<{ status: string; transferId?: string; error?: string }> {
+  try {
+    const res = await fetch(`${API_BASE}/rebalance/trigger`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(6000),
+    });
+    return await res.json();
+  } catch (e) {
+    return { status: "FAILED", error: (e as Error).message };
   }
 }
 

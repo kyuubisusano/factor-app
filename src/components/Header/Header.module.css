@@ -119,6 +119,39 @@
   color: #fef3c7;
 }
 
+/* Off-Hours Drift Pill (Play 5) */
+.offHoursPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 4px;
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  user-select: none;
+}
+
+.offHoursText {
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.offHoursFutures {
+  color: var(--text-muted);
+  font-size: 10.5px;
+}
+
+.offHoursCap {
+  color: var(--dim);
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
 .walletBtn {
   display: inline-flex;
   align-items: center;

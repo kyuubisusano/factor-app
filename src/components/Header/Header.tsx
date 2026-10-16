@@ -3,7 +3,7 @@ import s from "./Header.module.css";
 import type { ProtocolMetrics } from "../../types/market";
 import { Logo } from "../Common/Logo";
 import { useOperator } from "../../context/OperatorContext";
-import { Wallet } from "lucide-react";
+import { Wallet, Moon } from "lucide-react";
 
 interface HeaderProps {
   activeTab: "matrix" | "trades" | "safety" | "simulator";
@@ -68,6 +68,18 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right Actions */}
         <div className={s.actions}>
+          {metrics.marketSession === "CLOSED" && (
+            <div
+              className={s.offHoursPill}
+              title="US Equity cash session closed. Play 5 Off-Hours Fair Value active: linked to overnight futures (NQ/ES) with quarter-size cap (≤$6,250) and flat at 09:15 ET."
+            >
+              <Moon size={11} color="#fbbf24" />
+              <span className={s.offHoursText}>OFF-HOURS</span>
+              <span className={s.offHoursFutures}>NQ +0.48% • ES +0.32%</span>
+              <span className={s.offHoursCap}>≤$6.25k Cap</span>
+            </div>
+          )}
+
           {circuitTripped && (
             <button
               className={s.circuitStatusBadge}

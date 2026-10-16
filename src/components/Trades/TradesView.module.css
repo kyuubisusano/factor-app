@@ -459,3 +459,125 @@
     padding: 10px 10px;
   }
 }
+
+/* Sub-Navigation for Blotter vs Rebalance Queue */
+.subnavRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+}
+
+.subnavBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: var(--dim);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.subnavBtn:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.subnavBtnActive {
+  color: var(--lime);
+  background: rgba(212, 245, 92, 0.08);
+  border: 1px solid var(--lime-border);
+}
+
+.subnavBadge {
+  font-size: 10px;
+  background: var(--surface-3);
+  color: var(--dim);
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.subnavBadgeAlert {
+  background: rgba(255, 170, 0, 0.15);
+  color: #ffaa00;
+  border: 1px solid rgba(255, 170, 0, 0.4);
+}
+
+/* Play Filter Bar */
+.playFilterRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.playFilterLabel {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 4px;
+}
+
+.playFilterBtn {
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  color: var(--dim);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.playFilterBtn:hover {
+  color: var(--text);
+  border-color: var(--dim);
+}
+
+.playFilterBtnActive {
+  color: var(--lime);
+  background: rgba(212, 245, 92, 0.1);
+  border-color: var(--lime-border);
+}
+
+.playBadge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  margin-top: 2px;
+}
+
+.playBadge1 {
+  background: rgba(153, 69, 255, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(153, 69, 255, 0.3);
+}
+
+.playBadge2 {
+  background: rgba(0, 210, 255, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(0, 210, 255, 0.3);
+}
+
+.playBadge5 {
+  background: rgba(255, 170, 0, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(255, 170, 0, 0.3);
+}
