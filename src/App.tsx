@@ -17,9 +17,14 @@ import {
   INITIAL_PROTOCOL_METRICS,
 } from "./engine/simulation";
 import type { ArbitrageOpportunity, CircuitBreakerState, ProtocolMetrics } from "./types/market";
+import { trackAnonymousEvent } from "./services/telemetry";
 
 function AppContent() {
   const [activeTab, setActiveTab] = useState<"matrix" | "trades" | "safety" | "simulator">("matrix");
+
+  useEffect(() => {
+    trackAnonymousEvent(`view_${activeTab}`);
+  }, [activeTab]);
   const [simulatorOpp, setSimulatorOpp] = useState<ArbitrageOpportunity | null>(null);
   const [tradeCount, setTradeCount] = useState<number>(0);
   const [selectedSizeUsd, setSelectedSizeUsd] = useState<number>(10000);

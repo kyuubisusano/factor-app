@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Copy, Check } from "lucide-react";
 import s from "./YieldSimulator.module.css";
 import { calculateEdge, formatBps, formatCurrency } from "../../engine/edge";
+import { trackAnonymousEvent } from "../../services/telemetry";
 
 interface YieldSimulatorProps {
   initialSpreadBps?: number;
@@ -67,6 +68,7 @@ Breakeven Rebalance: ${formatCurrency(edgeResult.breakevenRebalanceUsd)}`;
     navigator.clipboard.writeText(memo);
     setCopiedMemo(true);
     setTimeout(() => setCopiedMemo(false), 2000);
+    trackAnonymousEvent("simulation_memo_copied");
     if (onToast) {
       onToast({
         type: "success",
