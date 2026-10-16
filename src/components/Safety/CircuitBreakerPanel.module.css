@@ -1,0 +1,430 @@
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.header {
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+/* Control Strip */
+.controlStrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.statusGroup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.statusInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statusLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--mute);
+  font-family: var(--font-mono);
+}
+
+.statusArmedText {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--lime);
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.statusTrippedText {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--coral);
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.latchBtn {
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.latchTrip {
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  color: var(--dim);
+}
+
+.latchTrip:hover {
+  color: var(--coral);
+  border-color: rgba(255, 92, 92, 0.4);
+}
+
+.latchReset {
+  background: var(--lime);
+  color: var(--ink);
+  font-weight: 600;
+  border: none;
+}
+
+.latchReset:hover {
+  background: var(--lime-hover);
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: var(--line);
+}
+
+.telemetryCluster {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.telemetryBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.telemetryBlock:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.telemetryLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--mute);
+}
+
+.telemetryValue {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.valNominal {
+  color: var(--text);
+}
+
+.valGated {
+  color: var(--coral);
+}
+
+.subDivider {
+  width: 1px;
+  height: 20px;
+  background: var(--line);
+}
+
+/* Latency Strip */
+.latencyStrip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.latBox {
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.latLabel {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.latVal {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Phase 0 PRD Exit-Gate Banner */
+.gateSummaryStrip {
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.gateSummaryTitle {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.gateSummaryDesc {
+  font-size: 11px;
+  color: var(--dim);
+  margin-top: 3px;
+}
+
+.gateSummaryMetrics {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.gateMetricBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.gateMetricLabel {
+  font-size: 10px;
+  color: var(--mute);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.gateMetricVal {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Gates Grid */
+.gatesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 900px) {
+  .gatesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gateCard {
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+
+.gateHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.gateNum {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.gateStatusNominal {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--lime);
+  letter-spacing: 0.02em;
+}
+
+.gateStatusGated {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--amber);
+  letter-spacing: 0.02em;
+}
+
+.gateStatusTripped {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--coral);
+  letter-spacing: 0.02em;
+}
+
+.gateTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.gateDesc {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Log Section */
+.logSection {
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+
+.logHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.logTitle {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.logActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filterBtns {
+  display: flex;
+  background: var(--surface-2);
+  padding: 2px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+}
+
+.filterBtn {
+  padding: 2px 7px;
+  font-size: 10.5px;
+  color: var(--text-muted);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.filterBtnActive {
+  background: var(--surface-3);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.exportBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.exportBtn:hover {
+  color: var(--lime);
+  border-color: var(--lime-border);
+}
+
+.logTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}
+
+.logTable th {
+  text-align: left;
+  padding: 6px 8px;
+  font-size: 10.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--line);
+}
+
+.logTable td {
+  padding: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+.kindTag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--cyan);
+}
+
+.detailCol {
+  color: var(--text-secondary);
+}
+
+.passTag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--dim);
+}

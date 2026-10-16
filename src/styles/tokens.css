@@ -1,0 +1,65 @@
+:root {
+  /* Editorial Palette matching factor-landing-page */
+  --bg: #0c0c0d;
+  --surface: #141416;
+  --surface-1: #141416;
+  --surface-2: #1b1b1e;
+  --surface-3: #242429;
+  --surface-card: #141416;
+  --surface-glass: rgba(20, 20, 22, 0.85);
+  --surface-glass-hover: rgba(27, 27, 30, 0.95);
+
+  /* Warm paper and ink for receipts & trade checks */
+  --paper: #f1ede3;
+  --paper-2: #e4dfd2;
+  --ink: #141311;
+  --ink-dim: #5e5a52;
+
+  /* Borders & Dividers */
+  --line: rgba(255, 255, 255, 0.08);
+  --line-2: rgba(255, 255, 255, 0.15);
+  --line-strong: rgba(255, 255, 255, 0.18);
+
+  /* Typography Colors */
+  --text: #f2f0ea;
+  --text-secondary: #a6a39c;
+  --text-muted: #6f6d68;
+  --dim: #a6a39c;
+  --mute: #6f6d68;
+
+  /* Brand Accents */
+  --lime: #d4f55c;
+  --lime-dim: rgba(212, 245, 92, 0.12);
+  --lime-border: rgba(212, 245, 92, 0.35);
+  --lime-hover: #e3fa87;
+
+  /* Semantic Stamps & Signals */
+  --green: #d4f55c;
+  --green-dim: rgba(212, 245, 92, 0.12);
+  --green-border: rgba(212, 245, 92, 0.35);
+  
+  --coral: #ff6a55;
+  --coral-dim: rgba(255, 106, 85, 0.12);
+  --coral-border: rgba(255, 106, 85, 0.3);
+
+  --amber: #f59e0b;
+  --amber-dim: rgba(245, 158, 11, 0.12);
+  --amber-border: rgba(245, 158, 11, 0.3);
+
+  --stamp-green: #1e7a44;
+  --stamp-red: #c9412a;
+
+  /* Fonts */
+  --font-display: 'Bricolage Grotesque', sans-serif;
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Layout & Radii */
+  --max-width: 1560px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --transition: all 0.18s var(--ease);
+}

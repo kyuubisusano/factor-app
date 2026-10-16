@@ -1,0 +1,181 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(12, 12, 13, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.headerInner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Brand: Exact factor-landing-page styling */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 600 22px/1 var(--font-display), sans-serif;
+  letter-spacing: -0.045em;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+}
+
+.brandWordmark {
+  color: var(--text);
+  line-height: 1;
+}
+
+/* Navigation Tabs */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--surface-1);
+  padding: 3px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+}
+
+.navItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.navItem:hover {
+  color: var(--text);
+}
+
+.navItem.active {
+  background: var(--surface-3);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.navCount {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--lime);
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+/* Right Actions - Clean, quiet institutional layout (NO PILL CLUSTERS) */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.feedMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--dim);
+}
+
+.feedStatus {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actionSep {
+  width: 1px;
+  height: 16px;
+  background: var(--line);
+}
+
+.walletBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.walletBtn:hover {
+  border-color: var(--lime-border);
+  color: var(--lime);
+}
+
+.walletAddress {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.demoBadge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: var(--surface-3);
+  color: var(--dim);
+  border: 1px solid var(--line);
+  letter-spacing: 0.05em;
+}
+
+.connectWalletBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.connectWalletBtn:hover {
+  background: var(--surface-3);
+  border-color: var(--lime-border);
+  color: var(--lime);
+}
+
+@media (max-width: 800px) {
+  .headerInner {
+    height: auto;
+    padding: 10px 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+

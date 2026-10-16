@@ -1,0 +1,143 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 8, 9, 0.75);
+  backdrop-filter: blur(6px);
+  display: grid;
+  place-items: center;
+  z-index: 1001;
+  padding: 16px;
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  width: 100%;
+  max-width: 440px;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 24px;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  position: relative;
+  animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.96); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.ticketHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 10px;
+  border-bottom: 2px dashed rgba(20, 19, 17, 0.3);
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.ticketId {
+  font-size: 11px;
+  color: var(--ink-dim);
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 0;
+}
+
+.line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+}
+
+.lineLabel {
+  color: var(--ink-dim);
+}
+
+.lineVal {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 10px 0;
+  border-top: 2px dashed rgba(20, 19, 17, 0.3);
+  border-bottom: 2px dashed rgba(20, 19, 17, 0.3);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.totalProfit {
+  font-size: 16px;
+  color: var(--stamp-green);
+}
+
+.stampArea {
+  display: grid;
+  place-items: center;
+  padding: 14px 0 8px;
+}
+
+.stamp {
+  padding: 4px 14px;
+  border: 2px solid var(--stamp-green);
+  border-radius: 5px;
+  color: var(--stamp-green);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transform: rotate(-5deg);
+  user-select: none;
+}
+
+.foot {
+  text-align: center;
+  font-size: 10.5px;
+  color: var(--ink-dim);
+  padding: 10px 0 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dismissBtn {
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.dismissBtn:hover {
+  opacity: 0.9;
+}
